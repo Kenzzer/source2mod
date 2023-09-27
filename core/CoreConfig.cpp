@@ -48,11 +48,12 @@
 
 using namespace SourceHook;
 
-#ifdef PLATFORM_WINDOWS
+#ifdef PLATFORM_WINDOWS && defined CONVAR_WORK_FINISHED
 ConVar sm_corecfgfile("sm_corecfgfile", "addons\\sourcemod\\configs\\core.cfg", 0, "SourceMod core configuration file");
-#elif defined PLATFORM_LINUX || defined PLATFORM_APPLE
+#elif defined CONVAR_WORK_FINISHED && (defined PLATFORM_LINUX || defined PLATFORM_APPLE)
 ConVar sm_corecfgfile("sm_corecfgfile", "addons/sourcemod/configs/core.cfg", 0, "SourceMod core configuration file");
 #endif
+ConVar sm_corecfgfile;
 
 IForward *g_pOnServerCfg = NULL;
 IForward *g_pOnConfigsExecuted = NULL;

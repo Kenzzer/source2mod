@@ -55,7 +55,7 @@
 namespace SourceMod
 {
 
-namespace detail
+namespace hmdetail
 {
 	class CharsAndLength
 	{
@@ -103,8 +103,8 @@ namespace detail
 template <typename T>
 class StringHashMap
 {
-	typedef detail::CharsAndLength CharsAndLength;
-	typedef ke::HashMap<std::string, T, detail::StringHashMapPolicy> Internal;
+	typedef hmdetail::CharsAndLength CharsAndLength;
+	typedef ke::HashMap<std::string, T, hmdetail::StringHashMapPolicy> Internal;
 
 public:
 	StringHashMap()

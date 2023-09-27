@@ -215,7 +215,7 @@ void TimerSystem::OnSourceModLevelEnd()
 	m_bHasMapSimulatedYet = false;
 }
 
-void TimerSystem::GameFrame(bool simulating)
+void TimerSystem::GameFrame(bool simulating, bool bFirstTick, bool bLastTick)
 {
 	if (simulating && m_bHasMapTickedYet)
 	{

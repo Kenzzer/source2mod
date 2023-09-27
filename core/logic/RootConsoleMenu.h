@@ -46,7 +46,7 @@ struct ConsoleEntry
 	{
 		return strcmp(name, entry->command.c_str()) == 0;
 	}
-	static inline uint32_t hash(const detail::CharsAndLength &key)
+	static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 	{
 		return key.hash();
 	}

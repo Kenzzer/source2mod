@@ -82,7 +82,7 @@ public: //ITimerSystem
 public:
 	void RunFrame();
 	void RemoveMapChangeTimers();
-	void GameFrame(bool simulating);
+	void GameFrame(bool simulating, bool bFirstTick, bool bLastTick);
 private:
 	List<ITimer *> m_SingleTimers;
 	List<ITimer *> m_LoopTimers;

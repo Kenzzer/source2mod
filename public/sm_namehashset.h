@@ -59,7 +59,7 @@ namespace SourceMod
 template <typename T, typename KeyPolicy = T>
 class NameHashSet : public ke::SystemAllocatorPolicy
 {
-	typedef detail::CharsAndLength CharsAndLength;
+	typedef hmdetail::CharsAndLength CharsAndLength;
 
 	// Default policy type: the two types are different. Use them directly.
 	template <typename KeyType, typename KeyPolicyType>

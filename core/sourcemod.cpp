@@ -51,7 +51,7 @@
 
 SH_DECL_HOOK6(IServerGameDLL, LevelInit, SH_NOATTRIB, false, bool, const char *, const char *, const char *, const char *, bool, bool);
 SH_DECL_HOOK0_void(IServerGameDLL, LevelShutdown, SH_NOATTRIB, false);
-SH_DECL_HOOK1_void(IServerGameDLL, GameFrame, SH_NOATTRIB, false, bool);
+SH_DECL_HOOK3_void(IServerGameDLL, GameFrame, SH_NOATTRIB, false, bool, bool, bool);
 SH_DECL_HOOK1_void(IServerGameDLL, Think, SH_NOATTRIB, false, bool);
 SH_DECL_HOOK1_void(IVEngineServer, ServerCommand, SH_NOATTRIB, false, const char *);
 SH_DECL_HOOK0(IVEngineServer, GetMapEntitiesString, SH_NOATTRIB, 0, const char *);
@@ -73,10 +73,14 @@ bool sm_disable_jit = false;
 int jit_metadata_flags = JIT_DEBUG_DELETE_ON_EXIT | JIT_DEBUG_PERF_BASIC;
 SMGlobalClass *SMGlobalClass::head = nullptr;
 
-#ifdef PLATFORM_WINDOWS
+// CS2 FIXME
+// CONVAR_WORK_FINISHED
+#ifdef PLATFORM_WINDOWS && defined CONVAR_WORK_FINISHED
 ConVar sm_basepath("sm_basepath", "addons\\sourcemod", 0, "SourceMod base path (set via command line)");
-#elif defined PLATFORM_LINUX || defined PLATFORM_APPLE
+#elif (defined PLATFORM_LINUX || defined PLATFORM_APPLE) && defined CONVAR_WORK_FINISHED
 ConVar sm_basepath("sm_basepath", "addons/sourcemod", 0, "SourceMod base path (set via command line)");
+#else
+ConVar sm_basepath;
 #endif
 
 void ShutdownJIT()
@@ -190,7 +194,8 @@ bool SourceModBase::InitializeSourceMod(char *error, size_t maxlength, bool late
 		}
 	}
 
-	const char *basepath = icvar->GetCommandLineValue("sm_basepath");
+	// CS2 FIXME
+	const char *basepath = "";//icvar->GetCommandLineValue("sm_basepath");
 	/* Set a custom base path if there is one. */
 	if (basepath != NULL && basepath[0] != '\0')
 	{
@@ -199,7 +204,9 @@ bool SourceModBase::InitializeSourceMod(char *error, size_t maxlength, bool late
 	/* Otherwise, use a default and keep the m_GotBasePath unlocked. */
 	else
 	{
-		basepath = sm_basepath.GetDefault();
+		// CS2 FIXME
+		// Use a getter
+		basepath = sm_basepath.m_cvvDefaultValue->m_szValue;
 	}
 
 	ke::path::Format(m_SMBaseDir, sizeof(m_SMBaseDir), "%s/%s", g_BaseDir.c_str(), basepath);
@@ -370,7 +377,7 @@ void SourceModBase::StartSourceMod(bool late)
 
 static bool g_LevelEndBarrier = false;
 bool SourceModBase::LevelInit(char const *pMapName, char const *pMapEntities, char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background)
-{
+{g
 	/* Seed rand() globally per map */
 	srand(time(NULL));
 	

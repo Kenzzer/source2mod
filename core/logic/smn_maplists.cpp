@@ -58,7 +58,7 @@ struct maplist_info_t
 	{
 		return strcmp(value->name, key) == 0;
 	}
-	static inline uint32_t hash(const detail::CharsAndLength &key)
+	static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 	{
 		return key.hash();
 	}

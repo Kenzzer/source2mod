@@ -69,7 +69,9 @@ struct ConVarInfo
 	{
 		static inline bool matches(const char *name, ConVarInfo *info)
 		{
-			const char *conVarChars = info->pVar->GetName();
+			// CS2 FIX ME
+			// Invoke a getter instead
+			const char *conVarChars = info->pVar->m_pszName;
 
 			std::string convarName = ke::Lowercase(conVarChars);
 			std::string input = ke::Lowercase(name);
@@ -77,10 +79,10 @@ struct ConVarInfo
 			return convarName == input;
 		}
 
-		static inline uint32_t hash(const detail::CharsAndLength &key)
+		static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 		{
 			std::string lower = ke::Lowercase(key.c_str());
-			return detail::CharsAndLength(lower.c_str()).hash();
+			return hmdetail::CharsAndLength(lower.c_str()).hash();
 		}
 	};
 };

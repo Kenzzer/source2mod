@@ -483,12 +483,12 @@ private:
 
 	struct CPluginPolicy
 	{
-		static inline uint32_t hash(const detail::CharsAndLength &key)
+		static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 		{
 /* For windows & mac, we convert the path to lower-case in order to avoid duplicate plugin loading */
 #if defined PLATFORM_WINDOWS || defined PLATFORM_APPLE
 			std::string lower = ke::Lowercase(key.c_str());
-			return detail::CharsAndLength(lower.c_str()).hash();
+			return hmdetail::CharsAndLength(lower.c_str()).hash();
 #else
 			return key.hash();
 #endif

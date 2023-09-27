@@ -95,7 +95,7 @@ struct DataTableInfo
 		{
 			return strcmp(name, info.name.c_str()) == 0;
 		}
-		static inline uint32_t hash(const detail::CharsAndLength &key)
+		static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 		{
 			return key.hash();
 		}
@@ -113,7 +113,7 @@ struct DataTableInfo
 	{
 		return strcmp(name, info->sc->GetName()) == 0;
 	}
-	static inline uint32_t hash(const detail::CharsAndLength &key)
+	static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 	{
 		return key.hash();
 	}
@@ -133,7 +133,7 @@ struct DataMapCacheInfo
 	{
 		return strcmp(name, info.name.c_str()) == 0;
 	}
-	static inline uint32_t hash(const detail::CharsAndLength &key)
+	static inline uint32_t hash(const hmdetail::CharsAndLength &key)
 	{
 		return key.hash();
 	}
@@ -229,7 +229,7 @@ public: //IGameHelpers
 	bool HintTextMsg(cell_t *players, int count, const char *msg);
 	bool ShowVGUIMenu(int client, const char *name, KeyValues *data, bool show);
 	bool IsLANServer();
-	bool KVLoadFromFile(KeyValues *kv, IBaseFileSystem *filesystem, const char *resourceName, const char *pathID = NULL);
+	bool KVLoadFromFile(KeyValues *kv, IFileSystem *filesystem, const char *resourceName, const char *pathID = NULL);
 	edict_t *EdictOfIndex(int index);
 	int IndexOfEdict(edict_t *pEnt);
 	edict_t *GetHandleEntity(CBaseHandle &hndl);

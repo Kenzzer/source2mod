@@ -44,7 +44,7 @@
 #include <sh_vector.h>
 #include <am-string.h>
 #include <am-deque.h>
-#include "ConVarManager.h"
+//#include "ConVarManager.h"
 
 #include <steam/steamclientpublic.h>
 

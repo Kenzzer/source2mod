@@ -39,118 +39,21 @@ class EQueryCvarValueStatus;
 typedef int QueryCvarCookie_t;
 #endif
 
-#if SOURCE_ENGINE >= SE_ORANGEBOX
-	#define CONVAR_REGISTER(object)				ConVar_Register(0, object)
+#define CONVAR_REGISTER(object)				ConVar_Register(0, object)
 
-	inline bool IsFlagSet(ConCommandBase *cmd, int flag)
-	{
-		return cmd->IsFlagSet(flag);
-	}
-	inline ConCommandBase *FindCommandBase(const char *name)
-	{
-		return icvar->FindCommandBase(name);
-	}
-	inline ConCommand *FindCommand(const char *name)
-	{
-		return icvar->FindCommand(name);
-	}
-#else
-	class CCommand
-	{
-	public:
-		inline const char *ArgS() const
-		{
-			return engine->Cmd_Args();
-		}
-		inline int ArgC() const
-		{
-			return engine->Cmd_Argc();
-		}
-		inline const char *Arg(int index) const
-		{
-			return engine->Cmd_Argv(index);
-		}
+inline bool IsFlagSet(ConCommandBase *cmd, int flag)
+{
+	return cmd->IsFlagSet(flag);
+}
 
-		static int MaxCommandLength() { return 512; }
-	};
+inline ConCommandHandle FindCommandBase(const char *name)
+{
+	return icvar->FindCommand(name);
+}
 
-	inline bool IsFlagSet(ConCommandBase *cmd, int flag)
-	{
-		return cmd->IsBitSet(flag);
-	}
-	inline ConCommandBase *FindCommandBase(const char *name)
-	{
-		ConCommandBase *pBase = icvar->GetCommands();
-		while (pBase)
-		{
-			if (strcmp(pBase->GetName(), name) == 0)
-			{
-				if (!pBase->IsCommand())
-				{
-					return NULL;
-				}
-
-				return pBase;
-			}
-			pBase = const_cast<ConCommandBase *>(pBase->GetNext());
-		}
-		return NULL;
-	}
-	inline ConCommand *FindCommand(const char *name)
-	{
-		ConCommandBase *pBase = icvar->GetCommands();
-		while (pBase)
-		{
-			if (strcmp(pBase->GetName(), name) == 0)
-			{
-				if (!pBase->IsCommand())
-				{
-					return NULL;
-				}
-
-				return static_cast<ConCommand *>(pBase);
-			}
-			pBase = const_cast<ConCommandBase *>(pBase->GetNext());
-		}
-		return NULL;
-	}
-
-	#define CVAR_INTERFACE_VERSION				VENGINE_CVAR_INTERFACE_VERSION
-
-	#define CONVAR_REGISTER(object)				ConCommandBaseMgr::OneTimeInit(object)
-	typedef FnChangeCallback					FnChangeCallback_t;
-#endif //SOURCE_ENGINE >= SE_ORANGEBOX
-
-#if SOURCE_ENGINE >= SE_LEFT4DEAD
-	inline int IndexOfEdict(const edict_t *pEdict)
-	{
-		return (int)(pEdict - gpGlobals->pEdicts);
-	}
-	inline edict_t *PEntityOfEntIndex(int iEntIndex)
-	{
-		if (iEntIndex >= 0 && iEntIndex < gpGlobals->maxEntities)
-		{
-			return (edict_t *)(gpGlobals->pEdicts + iEntIndex);
-		}
-		return NULL;
-	}
-	inline int GetTypeDescOffs(typedescription_t *td)
-	{
-		return td->fieldOffset;
-	}
-#else
-	inline int IndexOfEdict(const edict_t *pEdict)
-	{
-		return engine->IndexOfEdict(pEdict);
-	}
-	inline edict_t *PEntityOfEntIndex(int iEntIndex)
-	{
-		return engine->PEntityOfEntIndex(iEntIndex);
-	}
-	inline int GetTypeDescOffs(typedescription_t *td)
-	{
-		return td->fieldOffset[TD_OFFSET_NORMAL];
-	}
-#endif //SOURCE_ENGINE >= SE_LEFT4DEAD
+inline ConCommandHandle FindCommand(const char *name)
+{
+	return icvar->FindCommand(name);
+}
 
 #endif //_INCLUDE_SOURCEMOD_COMPAT_WRAPPERS_H_

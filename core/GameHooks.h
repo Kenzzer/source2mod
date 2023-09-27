@@ -31,22 +31,17 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <eiface.h>
-#include <iserverplugin.h>
+//#include <iserverplugin.h>
 #include <amtl/am-refcounting.h>
 #include <amtl/am-vector.h>
 #include <amtl/am-function.h>
 
 class ConVar;
 class CCommand;
-struct CCommandContext;
+class CCommandContext;
 
-#if SOURCE_ENGINE >= SE_ORANGEBOX
-# define DISPATCH_ARGS      const CCommand &command
-# define DISPATCH_PROLOGUE
-#else
-# define DISPATCH_ARGS
-# define DISPATCH_PROLOGUE  CCommand command
-#endif
+#define DISPATCH_ARGS      const CCommand &command
+#define DISPATCH_PROLOGUE
 
 namespace SourceMod {
 
@@ -99,17 +94,9 @@ public:
 
 private:
 	// Static callback that Valve's ConVar object executes when the convar's value changes.
-#if SOURCE_ENGINE >= SE_ORANGEBOX
 	static void OnConVarChanged(ConVar *pConVar, const char *oldValue, float flOldValue);
-#else
-	static void OnConVarChanged(ConVar *pConVar, const char *oldValue);
-#endif
-
-	// Callback for when StartQueryCvarValue() has finished.
-#if SOURCE_ENGINE != SE_DARKMESSIAH
-	void OnQueryCvarValueFinished(QueryCvarCookie_t cookie, edict_t *pPlayer, EQueryCvarValueStatus result,
-	                              const char *cvarName, const char *cvarValue);
-#endif
+	// CS2 FIXME
+	//void OnQueryCvarValueFinished(QueryCvarCookie_t cookie, edict_t *pPlayer, EQueryCvarValueStatus result, const char *cvarName, const char *cvarValue);
 
 	void SetCommandClient(int client);
 
